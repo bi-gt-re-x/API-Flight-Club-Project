@@ -1,0 +1,1 @@
+Made using only Python, this console-based project is used to track down flight deals to places such as Paris, France, Japan, or anywhere around the world by pulling an api from a flight website, then looking for flight deals from another website, combining these two to make the flight deal website, and telling you which dates are optimal for the cheapest flights. 
