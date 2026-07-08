@@ -4,6 +4,7 @@ from datetime import datetime
 
 class FlightData:
     def __init__(self):
+        #My 3 brain cells tell me Nitesh or Bhasvat will try and steal it.
         self.api_key = os.environ["AMADEUS_API_KEY"]
         self.api_secret = os.environ["AMADEUS_API_SECRET"]
 
