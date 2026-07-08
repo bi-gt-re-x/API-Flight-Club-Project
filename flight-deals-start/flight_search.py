@@ -1,6 +1,8 @@
 import os
 import requests
 
+# I swear the api is trolling me, I'm pretty sure Amadeus costs money, if ur spending 5 dollars, give some to me please
+
 class FlightSearch:
     def __init__(self):
         self.api_key = os.environ["AMADEUS_API_KEY"]
