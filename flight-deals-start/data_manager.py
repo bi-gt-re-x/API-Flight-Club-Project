@@ -6,6 +6,7 @@ load_dotenv()
 
 class DataManager:
     def __init__(self):
+        #Haha, I already know ur trying to steal my API links, too bad, you can't see the environment file, sucks to be you.
         self.bearer = os.environ["SHEETY_PASSWORD"]
         self.prices_url = os.environ["SHEETY_PRICES_URL"]
         self.users_url = os.environ["SHEETY_USERS_URL"]
