@@ -12,7 +12,7 @@ load_dotenv(Path(__file__).resolve().with_name(".env"))
 class SerpAPISearch:
     def __init__(self, timeout: int = 20) -> None:
         self.api_key = os.getenv("SERPAPI_KEY", "")
-        self.endpoint = os.getenv("SERPAPI_ENDPOINT", "https://serpapi.com/search?engine=google_flights")
+        self.endpoint = os.getenv("SERPAPI_ENDPOINT", "https://serpapi.com/search")
         self.timeout = timeout
         self.session = requests.Session()
 
@@ -31,7 +31,7 @@ class SerpAPISearch:
             "arrival_id": destination,
             "outbound_date": departure_date,
             "adults": adults,
-            "type": "flights",
+            "type": "2",
             "hl": "en",
             "currency": "USD"
         }

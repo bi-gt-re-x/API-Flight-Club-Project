@@ -248,14 +248,6 @@ class MainWindow(QMainWindow):
             
         self.status_label.setText(f"Emailed to {email}")
         self.status_label.setStyleSheet(f"color: {GREEN};")
-        
-        results_title = QLabel("Your 3 Best Prices")
-        results_title.setFont(QFont("Arial", 24, QFont.Weight.Bold))
-        results_title.setStyleSheet(f"color: {LIGHT_BLUE};")
-        self.results_layout.addWidget(results_title)
-        
-        for rank, offer in enumerate(offers, start=1):
-            self.add_offer_card(offer, rank)
             
     def add_offer_card(self, offer: FlightOffer, rank: int) -> None:
         card = QFrame()

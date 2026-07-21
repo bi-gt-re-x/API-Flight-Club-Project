@@ -19,33 +19,40 @@ class FlightSearchWorker:
         flights_data = self.search_service.search_flights(origin, destination, travel_date)
         offers = self._convert_to_offers(flights_data, origin, destination)
         if offers:
-            self.notifier.notify(offers[0], email)
+            try:
+                self.notifier.notify(offers[0], email)
+            except RuntimeError:
+                pass
         return offers, email
 
     def _convert_to_offers(self, flights_data: list[dict], origin: str, destination: str) -> list[FlightOffer]:
         offers = []
         for flight in flights_data[:3]:
             try:
-                price_info = flight.get("price", {})
-                price = float(price_info.get("amount", 0)) if price_info else 0
-                currency = price_info.get("currency", "USD") if price_info else "USD"
+                price = float(flight.get("price", 0))
+                currency = "USD"
                 
-                departure_airport = flight.get("departure_airport", {})
-                arrival_airport = flight.get("arrival_airport", {})
+                flights = flight.get("flights", [])
+                if not flights:
+                    continue
+                    
+                first_flight = flights[0]
+                departure_airport = first_flight.get("departure_airport", {})
+                arrival_airport = first_flight.get("arrival_airport", {})
                 
-                departure_code = departure_airport.get("id", origin).split(":")[-1].upper()
-                arrival_code = arrival_airport.get("id", destination).split(":")[-1].upper()
+                departure_code = departure_airport.get("id", origin).upper()
+                arrival_code = arrival_airport.get("id", destination).upper()
                 
-                departure_date = flight.get("departure_date", "")
-                arrival_date = flight.get("arrival_date", "")
+                departure_time = departure_airport.get("time", "")
+                arrival_time = arrival_airport.get("time", "")
                 
-                stops_info = flight.get("stops", 0)
-                if isinstance(stops_info, list):
-                    stops = len(stops_info)
-                else:
-                    stops = int(stops_info) if stops_info else 0
+                departure_date = departure_time.split(" ")[0] if departure_time else ""
+                arrival_date = arrival_time.split(" ")[0] if arrival_time else ""
                 
-                booking_link = flight.get("deep_link", "")
+                stops = len(flights) - 1
+                
+                booking_token = flight.get("booking_token", "")
+                booking_link = f"https://www.google.com/travel/flights?q=flights%20from%20{origin}%20to%20{destination}%20on%20{departure_date}"
                 
                 offer = FlightOffer(
                     destination=arrival_airport.get("name", destination),
